@@ -2,14 +2,14 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="theme-color" content="#000000">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  <title>黑底閱讀器（CSV 只讀修正版2）</title>
-  <link rel="stylesheet" href="./style.css?v=csvfix2">
+  <title>黑底閱讀器（CSV 只讀 v3b）</title>
+  <link rel="stylesheet" href="./style.css?v=csvv3b">
 </head>
 <body>
   <header>
@@ -24,11 +24,14 @@
   </header>
 
   <main>
-    <section class="toolbar">
+    <section id="toolbar" class="toolbar">
       <input id="q" placeholder="搜尋標題 / 內容（即時）">
       <button id="refresh">⟳ 同步</button>
     </section>
-    <ul id="list"></ul>
+
+    <section id="listPanel">
+      <ul id="list"></ul>
+    </section>
 
     <section id="reader" class="readerPanel hidden">
       <h2 id="rTitle"></h2>
@@ -42,13 +45,13 @@
   </main>
 
   <footer>
-    <small>黑底白字・膠囊分頁・逐步加載・CSV 只讀修正版</small>
+    <small>黑底白字・膠囊分頁・逐步加載・CSV 只讀 v3b</small>
   </footer>
 
-  <script src="./app.js?v=csvfix2"></script>
+  <script src="./app.js?v=csvv3b"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=csvfix2');
+      navigator.serviceWorker.register('./sw.js?v=csvv3b');
     }
   </script>
 </body>

@@ -1,5 +1,5 @@
 {
-  "name": "黑底閱讀器（CSV 只讀修正版2）",
+  "name": "黑底閱讀器（CSV 只讀 v3b）",
   "short_name": "閱讀器CSV",
   "start_url": "./index.html",
   "display": "standalone",
