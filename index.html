@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <title>黑底閱讀器（CSV 只讀修正版2）</title>
+  <link rel="stylesheet" href="./style.css?v=csvfix2">
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="clock">讀取器</div>
+    </div>
+    <nav>
+      <button id="tabArticle" aria-pressed="true">文章庫</button>
+      <button id="tabFile">文件庫</button>
+      <button id="tabDaily">日常</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="toolbar">
+      <input id="q" placeholder="搜尋標題 / 內容（即時）">
+      <button id="refresh">⟳ 同步</button>
+    </section>
+    <ul id="list"></ul>
+
+    <section id="reader" class="readerPanel hidden">
+      <h2 id="rTitle"></h2>
+      <div id="rMeta" class="meta"></div>
+      <div id="rContent" class="prewrap"></div>
+      <div id="progress" class="progress hidden"><span></span></div>
+      <div class="row">
+        <button id="back">← 返回列表</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>黑底白字・膠囊分頁・逐步加載・CSV 只讀修正版</small>
+  </footer>
+
+  <script src="./app.js?v=csvfix2"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js?v=csvfix2');
+    }
+  </script>
+</body>
+</html>
