@@ -7,6 +7,9 @@ const CSV = {
 
 let cache = {article:[], file:[], daily:[]};
 let active = 'article';
+let pageSize = 100;
+let shownCount = 0;
+let currentFiltered = [];
 
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
@@ -16,13 +19,18 @@ $('#tabFile').onclick    = async ()=>{ setTab('file'); await loadList('file'); }
 $('#tabDaily').onclick   = async ()=>{ setTab('daily'); await loadList('daily'); };
 $('#refresh').onclick    = async ()=>{ await loadList(active, true); };
 $('#back').onclick       = ()=>{ showList(); };
+$('#loadMore').onclick   = ()=>{ renderMore(); };
 
-$('#q').addEventListener('input', ()=> renderList(active, cache[active]));
+// 搜尋輸入加上 2 字門檻與去抖
+let qTimer = null;
+$('#q').addEventListener('input', ()=> {
+  if(qTimer) cancelAnimationFrame(qTimer);
+  qTimer = requestAnimationFrame(()=> renderList(active, cache[active]));
+});
 
 // ===== 字級控制（16/20/24px） =====
 const FONT_KEY = 'reader_font_size';
 const FONT_MAP = { s:'16px', m:'20px', l:'24px' };
-
 function applyFont(sizeCode){ 
   const px = FONT_MAP[sizeCode] || FONT_MAP.m; 
   document.documentElement.style.setProperty('--fz', px);
@@ -31,9 +39,7 @@ function applyFont(sizeCode){
   if(btn) btn.setAttribute('aria-pressed','true');
   localStorage.setItem(FONT_KEY, sizeCode);
 }
-
 for(const b of $$('.segBtn')) b.addEventListener('click', ()=> applyFont(b.dataset.size));
-// 初始化字級（預設 20px）
 applyFont(localStorage.getItem(FONT_KEY) || 'm');
 // ====================
 
@@ -97,22 +103,59 @@ async function loadList(kind){
 function renderEmpty(msg){
   const ul = $('#list');
   ul.innerHTML = `<li class="meta">${msg||'目前沒有內容或搜尋不到。'}</li>`;
+  $('#loadMoreBox').classList.add('hidden');
 }
 
 function renderList(kind, arr){
-  const ul = $('#list'); ul.innerHTML = '';
-  const q = ($('#q').value||'').toLowerCase();
+  const ul = $('#list'); ul.textContent = '';
+  // 大書庫優化：資料量很大且沒輸入搜尋時，不主動渲染
+  const q = ($('#q').value||'').toLowerCase().trim();
   let data = arr||[];
-  if(q)  data = data.filter(x=>(x.title+x.category+x.content).toLowerCase().includes(q));
-  if(data.length===0) return renderEmpty();
-  for(const x of data){
-    const li = document.createElement('li');
-    li.className = 'card';
-    const title = x.title && x.title.trim()!=='' ? escapeHTML(x.title) : '(無標題)';
-    li.innerHTML = `<h3>${title}</h3><div class="meta">${escapeHTML(x.date)} </div>`;
-    li.onclick = ()=> openReader(x);
-    ul.appendChild(li);
+
+  if(!q && data.length>1500){
+    renderEmpty('資料量較大，請先搜尋（至少輸入 2 個字）');
+    return;
   }
+  if(q.length>0){
+    if(q.length<2) return renderEmpty('請至少輸入 2 個字再搜尋');
+    data = data.filter(x=>(x.title+x.category+x.content).toLowerCase().includes(q));
+  }
+
+  currentFiltered = data;
+  shownCount = 0;
+  renderMore();
+}
+
+function renderMore(){
+  const ul = $('#list');
+  const end = Math.min(currentFiltered.length, shownCount + pageSize);
+  if(shownCount===0 && currentFiltered.length===0) return renderEmpty();
+  // 逐步渲染列表（每 20 筆一批，提升滑順感）
+  const batch = 20;
+  let i = shownCount;
+  function pump(){
+    const stop = Math.min(end, i+batch);
+    for(; i<stop; i++){ 
+      const x = currentFiltered[i];
+      const li = document.createElement('li');
+      li.className = 'card';
+      const title = x.title && x.title.trim()!=='' ? escapeHTML(x.title) : '(無標題)';
+      li.innerHTML = `<h3>${title}</h3><div class="meta">${escapeHTML(x.date)} </div>`;
+      li.onclick = ()=> openReader(x);
+      ul.appendChild(li);
+    }
+    if(i<end) requestAnimationFrame(pump);
+    else {
+      shownCount = end;
+      // 控制「載入更多」
+      if(shownCount < currentFiltered.length) {
+        $('#loadMoreBox').classList.remove('hidden');
+      } else {
+        $('#loadMoreBox').classList.add('hidden');
+      }
+    }
+  }
+  pump();
 }
 
 function openReader(item){

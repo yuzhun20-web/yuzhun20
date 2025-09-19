@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#121212">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
-  <title>黑底閱讀器（CSV 只讀 v3e）</title>
-  <link rel="stylesheet" href="./style.css?v=csvv3e">
+  <title>黑底閱讀器（CSV 只讀 v3g 護眼版）</title>
+  <link rel="stylesheet" href="./style.css?v=csvv3g">
 </head>
 <body>
   <header>
     <div class="bar">
-      <div class="clock">閱讀專用</div>
+      <div class="clock">私人專用閱讀器</div>
     </div>
     <nav>
       <button id="tabArticle" aria-pressed="true">文章庫</button>
@@ -25,12 +25,15 @@
 
   <main>
     <section id="toolbar" class="toolbar">
-      <input id="q" placeholder="搜尋標題 / 內容（即時）">
+      <input id="q" placeholder="搜尋標題 / 內容（至少 2 字）">
       <button id="refresh">⟳ 同步</button>
     </section>
 
     <section id="listPanel">
       <ul id="list"></ul>
+      <div id="loadMoreBox" class="row hidden">
+        <button id="loadMore">載入更多</button>
+      </div>
     </section>
 
     <section id="reader" class="readerPanel hidden">
@@ -53,13 +56,13 @@
   </main>
 
   <footer>
-    <small>即時更新｜字級 A−/A/A+</small>
+    <small>私人專屬</small>
   </footer>
 
-  <script src="./app.js?v=csvv3e"></script>
+  <script src="./app.js?v=csvv3g"></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js?v=csvv3e');
+      navigator.serviceWorker.register('./sw.js?v=csvv3g');
     }
   </script>
 </body>
