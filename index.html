@@ -9,11 +9,11 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>閱讀器 CSV v3k</title>
-<link rel="stylesheet" href="./style.css?v=v3k">
+<link rel="stylesheet" href="./style.css?v=v3k_fix2">
 </head>
 <body>
 <header>
-  <div class="bar"><div class="clock">年少有為</div></div>
+  <div class="bar"><div class="clock">讀取器</div></div>
   <nav>
     <button id="tabArticle" aria-pressed="true">文章庫</button>
     <button id="tabFile">文件庫</button>
@@ -31,9 +31,9 @@
     <div id="loadMoreBox" class="row hidden"><button id="loadMore">載入更多</button></div>
   </section>
   <section id="reader" class="readerPanel hidden">
-    <div class="readerTop">
+    <div class="readerTop" aria-hidden="true">
       <div class="grow"></div>
-      <button id="bookmark" class="fab small" title="加書籤">📍</button>
+      <button id="bookmark_hidden" class="fab small">📍</button>
     </div>
     <h2 id="rTitle"></h2>
     <div id="rMeta" class="meta"></div>
@@ -47,12 +47,15 @@
     </div>
     <div id="rContent" class="prewrap"></div>
     <div id="progress" class="progress hidden"><span></span></div>
-    <div class="row"><button id="backBottom" class="pillBtn small">← 返回列表</button></div>
+    <div class="row">
+      <button id="backBottom" class="pillBtn small" onclick="showList()">← 返回列表</button>
+    </div>
+    <button id="bookmark" class="fab small" title="加書籤">📍</button>
     <button id="bmFloat" class="fab hidden" title="回到書籤">↺</button>
   </section>
 </main>
 <footer><small>柔黑底・米白字・多選快篩・右滑返回（閱讀畫面）・極簡書籤・CSV 只讀 v3k</small></footer>
-<script src="./app.js?v=v3k"></script>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=v3k');}</script>
+<script src="./app.js?v=v3k_fix2"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js?v=v3k_fix2');}</script>
 </body>
 </html>

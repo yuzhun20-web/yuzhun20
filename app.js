@@ -1,12 +1,18 @@
 
-const CSV={article:"https://docs.google.com/spreadsheets/d/e/2PACX-1vRtFcnN6Sx_TfSZUOd-z4pJAsdUH9Iwif5O0g511UlRdSj-k3pVMoQJHtYLQhcxOJkpS-BZu0PrI755/pub?output=csv",file:"https://docs.google.com/spreadsheets/d/e/2PACX-1vTRLAWjFV-pv0-Ek3rsR6ITrYwLERjn6gDJES1VfevOZijiFkK4QOIw23gpm4gbJgLm1a6jfxpVFw2L/pub?gid=0&single=true&output=csv",daily:"https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5FAscCEiiTPtwoRATyaWkoibduHw-R46MQAemT32oYDB2tp9zzHh3-uErkSt62dqEEwYcFooC3oyg/pub?gid=0&single=true&output=csv"};
+// 將這 3 條換成你的「發布到網路 → CSV」連結
+const CSV = {
+  article: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRtFcnN6Sx_TfSZUOd-z4pJAsdUH9Iwif5O0g511UlRdSj-k3pVMoQJHtYLQhcxOJkpS-BZu0PrI755/pub?output=csv",
+  file:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTRLAWjFV-pv0-Ek3rsR6ITrYwLERjn6gDJES1VfevOZijiFkK4QOIw23gpm4gbJgLm1a6jfxpVFw2L/pub?gid=0&single=true&output=csv",
+  daily:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5FAscCEiiTPtwoRATyaWkoibduHw-R46MQAemT32oYDB2tp9zzHh3-uErkSt62dqEEwYcFooC3oyg/pub?gid=0&single=true&output=csv"
+};
+
 let cache={article:[],file:[],daily:[]},active='article',pageSize=100,shownCount=0,currentFiltered=[],selectedWorks=new Set();
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 $('#tabArticle').onclick=async()=>{setTab('article');await loadList('article')};
 $('#tabFile').onclick=async()=>{setTab('file');await loadList('file')};
 $('#tabDaily').onclick=async()=>{setTab('daily');await loadList('daily')};
 $('#refresh').onclick=async()=>{await loadList(active,true)};
-$('#backBottom').onclick=()=>{showList()};
+const backBtn = document.querySelector('#backBottom'); if(backBtn) backBtn.onclick=()=>{showList()};
 
 // 書籤
 const BM_KEY='reader_bookmark_map';
