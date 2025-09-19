@@ -1,6 +1,6 @@
 {
-  "name": "黑底閱讀器（CSV 只讀 v3k）",
-  "short_name": "閱讀器CSV",
+  "name": "閱讀器 CSV v3k",
+  "short_name": "CSV閱讀器",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#121212",
