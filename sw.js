@@ -1,5 +1,5 @@
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open('csv-ro-cache-v3g').then(c => c.addAll([
+  e.waitUntil(caches.open('csv-ro-cache-v3j').then(c => c.addAll([
     './','./index.html','./style.css','./app.js','./manifest.webmanifest'
   ])));
 });
