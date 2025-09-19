@@ -19,6 +19,24 @@ $('#back').onclick       = ()=>{ showList(); };
 
 $('#q').addEventListener('input', ()=> renderList(active, cache[active]));
 
+// ===== 字級控制（16/20/24px） =====
+const FONT_KEY = 'reader_font_size';
+const FONT_MAP = { s:'16px', m:'20px', l:'24px' };
+
+function applyFont(sizeCode){ 
+  const px = FONT_MAP[sizeCode] || FONT_MAP.m; 
+  document.documentElement.style.setProperty('--fz', px);
+  for(const b of $$('.segBtn')) b.setAttribute('aria-pressed','false');
+  const btn = document.querySelector(`.segBtn[data-size="${sizeCode}"]`);
+  if(btn) btn.setAttribute('aria-pressed','true');
+  localStorage.setItem(FONT_KEY, sizeCode);
+}
+
+for(const b of $$('.segBtn')) b.addEventListener('click', ()=> applyFont(b.dataset.size));
+// 初始化字級（預設 20px）
+applyFont(localStorage.getItem(FONT_KEY) || 'm');
+// ====================
+
 function setTab(kind){
   active = kind;
   for(const b of $$('nav button')) b.setAttribute('aria-pressed','false');

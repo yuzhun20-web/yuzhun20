@@ -1,7 +1,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#000;--fg:#fff;--muted:#9aa0a6;--card:#0b0b0b;--line:#1f1f1f}
+:root{--bg:#000;--fg:#fff;--muted:#9aa0a6;--card:#0b0b0b;--line:#1f1f1f;--fz:20px}
 html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif; touch-action: manipulation}
+body{margin:0;background:var(--bg);color:var(--fg);font:var(--fz)/1.7 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif; touch-action: manipulation}
 header{position:sticky;top:0;background:rgba(0,0,0,.92);backdrop-filter:saturate(120%) blur(6px);border-bottom:1px solid var(--line);z-index:9}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:10px 16px}
 .clock{opacity:.85}
@@ -29,3 +29,7 @@ ul#list{list-style:none;padding:0;margin:12px 0;display:flex;flex-direction:colu
 .progress{height:4px;background:#111;border-radius:999px;overflow:hidden;margin:12px 0}
 .progress span{display:block;height:100%;width:0;background:#444;transition:width .2s}
 footer{padding:20px;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
+.readControls{display:flex;align-items:center;gap:8px;margin:8px 0 12px}
+.seg{display:flex;gap:6px;background:#0e0e0e;border:1px solid var(--line);border-radius:999px;padding:4px}
+.segBtn{border:none;background:transparent;color:var(--fg);padding:6px 10px;border-radius:999px}
+.segBtn[aria-pressed="true"]{background:#1b1b1b}
