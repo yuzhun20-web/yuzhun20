@@ -1,4 +1,3 @@
-
 (function(){
   const cfg = window.AppConfig || {};
   const state = { chapters: [], selectedId: null };
@@ -58,16 +57,32 @@
     const ct=document.getElementById("content"); if(ct) ct.scrollIntoView({behavior:"smooth", block:"start"});
   }
   async function initReader(){ applyMode(); state.chapters = await loadData(); renderList(); }
+
   function initSettings(){
     applyMode();
+    const now = document.getElementById("currentMode");
+    if(now) now.textContent = (localStorage.getItem("readingMode") || cfg.DEFAULT_MODE || "dark");
+    window.chooseMode = (mode)=>{
+      localStorage.setItem("readingMode", mode);
+      applyMode();
+      const n = document.getElementById("currentMode");
+      if(n) n.textContent = mode;
+    };
     const sourceLabel = document.getElementById("sourceLabel");
     const csvPath = document.getElementById("csvPath");
     const apiEndpoint = document.getElementById("apiEndpoint");
     if(sourceLabel) sourceLabel.textContent = cfg.DATA_SOURCE;
     if(csvPath) csvPath.textContent = cfg.CSV_PATH;
     if(apiEndpoint) apiEndpoint.textContent = cfg.API_ENDPOINT || "(未設定)";
-    window.chooseMode = (mode)=>{ localStorage.setItem("readingMode", mode); applyMode(); alert("已切換到「"+mode+"」模式。"); };
   }
+
+  // Register SW
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', ()=>{
+      navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", ()=>{
     if(document.getElementById("chapterList")) initReader();
     if(document.getElementById("settingsPage")) initSettings();

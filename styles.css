@@ -1,4 +1,3 @@
-
 :root{--content-max-width:48rem}
 html,body{margin:0;padding:0;height:100%}
 body{font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,"Noto Sans CJK TC","PingFang TC","Heiti TC",sans-serif}
@@ -23,3 +22,4 @@ button{padding:.5rem .8rem;border:1px solid currentColor;background:transparent;
 .mode-preview{margin-top:1rem;padding:1rem;border-radius:8px;border:1px dashed currentColor;opacity:.9}
 .small{font-size:14px;opacity:.8}
 .alert{margin-top:1rem;padding:.75rem 1rem;border-radius:8px;border:1px solid currentColor;opacity:.8}
+.logo{display:block;width:56px;height:56px;background:url('./assets/images/logo.png') no-repeat center/contain;opacity:.8}

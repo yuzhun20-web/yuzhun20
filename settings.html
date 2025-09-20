@@ -1,4 +1,3 @@
-
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
 <title>設定 · 黑底閱讀器 V3K FIX</title>
@@ -7,7 +6,9 @@
 <script>(function(){const m=localStorage.getItem("readingMode")||(window.AppConfig&&window.AppConfig.DEFAULT_MODE)||"dark";document.addEventListener("DOMContentLoaded",()=>document.body.classList.add(m));})();</script>
 </head><body id="settingsPage">
 <div class="container">
+  <span class="logo" title="黑底閱讀器"></span>
   <h1>外觀設定</h1>
+  <p class="small">目前模式：<strong id="currentMode"></strong></p>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
     <button onclick="chooseMode('dark')">純黑模式</button>
     <button onclick="chooseMode('eyecare')">護眼模式（深灰）</button>
