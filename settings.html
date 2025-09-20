@@ -1,20 +1,26 @@
 
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
-<title>設定</title><link rel="stylesheet" href="./styles.css"/><script src="./config.js"></script>
-</head><body class="lightgray">
+<title>設定 · 黑底閱讀器 V3K FIX</title>
+<link rel="stylesheet" href="./styles.css"/>
+<script src="./config.js"></script>
+<script>(function(){const m=localStorage.getItem("readingMode")||(window.AppConfig&&window.AppConfig.DEFAULT_MODE)||"dark";document.addEventListener("DOMContentLoaded",()=>document.body.classList.add(m));})();</script>
+</head><body id="settingsPage">
 <div class="container">
   <h1>外觀設定</h1>
-  <p>選擇你要的閱讀模式，設定會自動保存，下次回閱讀頁即生效。</p>
   <div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button onclick="choose('dark')">純黑模式</button>
-    <button onclick="choose('eyecare')">護眼模式（深灰）</button>
-    <button onclick="choose('lightgray')">淺灰模式</button>
-    <button onclick="choose('paper')">紙張質感</button>
+    <button onclick="chooseMode('dark')">純黑模式</button>
+    <button onclick="chooseMode('eyecare')">護眼模式（深灰）</button>
+    <button onclick="chooseMode('lightgray')">淺灰模式</button>
+    <button onclick="chooseMode('paper')">紙張質感</button>
   </div>
+  <div class="mode-preview">（本頁背景與字體會同步目前模式，切換按鈕會立即生效）</div>
+  <h2 style="margin-top:1.2em;">資料來源</h2>
+  <p>目前資料來源：<code id="sourceLabel"></code></p>
+  <p>CSV 路徑：<code id="csvPath"></code></p>
+  <p>API Endpoint：<code id="apiEndpoint"></code></p>
+  <p class="alert small">更新提醒：之後更新程式時，請保留你的 <code>assets/novel_chapters.csv</code> 與（如有）客製 <code>config.js</code>。</p>
   <p style="margin-top:1.2em;"><a href="./index.html">⬅️ 回閱讀</a></p>
 </div>
-<script>
-function choose(mode){ localStorage.setItem("readingMode", mode); alert("已切換到「"+mode+"」模式。回閱讀頁將自動套用。"); }
-</script>
+<script src="./script.js"></script>
 </body></html>

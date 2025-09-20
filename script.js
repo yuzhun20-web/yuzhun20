@@ -2,7 +2,6 @@
 (function(){
   const cfg = window.AppConfig || {};
   const state = { chapters: [], selectedId: null };
-
   const getMode = () => localStorage.getItem("readingMode") || cfg.DEFAULT_MODE || "dark";
   const applyMode = () => { document.body.classList.remove("dark","eyecare","lightgray","paper"); document.body.classList.add(getMode()); };
 
@@ -21,7 +20,6 @@
       const row={}; headers.forEach((h,i)=>row[h.trim()]=(cols[i]||'').trim()); return row;
     });
   }
-
   async function loadData(){
     if(cfg.DATA_SOURCE==="csv"){
       const res = await fetch(cfg.CSV_PATH);
@@ -34,32 +32,44 @@
     }
     return [];
   }
-
   function renderList(){
-    const ul = document.getElementById("chapterList"); ul.innerHTML="";
+    const ul = document.getElementById("chapterList"); if(!ul) return;
+    ul.innerHTML="";
     const t=cfg.TITLE_FIELD,s=cfg.SUBTITLE_FIELD,p=cfg.SUBPART_FIELD,id=cfg.ID_FIELD,st=cfg.STATUS_FIELD;
     state.chapters.forEach(ch=>{
       const li=document.createElement("li"); li.className="chapter-item"; li.dataset.id=ch[id];
       const title=(ch[t]||"").toString(), sub=(ch[s]||"").toString(), subp=(ch[p]||"").toString(), status=(ch[st]||"").toString();
       li.innerHTML=`<div><strong>${title}</strong> ${sub} ${subp} ${status?`<span class="badge">${status}</span>`:''}</div>`;
-      li.addEventListener("click", ()=>openChapter(ch[id]));
-      ul.appendChild(li);
+      li.addEventListener("click", ()=>openChapter(ch[id])); ul.appendChild(li);
     });
   }
-
   function openChapter(id){
     state.selectedId=id;
     const idk=cfg.ID_FIELD, ck=cfg.CONTENT_FIELD, tk=cfg.TITLE_FIELD, sk=cfg.SUBTITLE_FIELD, pk=cfg.SUBPART_FIELD, uk=cfg.URL_FIELD;
     const ch=state.chapters.find(x=>(x[idk]||'').toString()===(id||'').toString()); if(!ch) return;
-    document.getElementById("chapterTitle").textContent=[ch[tk], ch[sk], ch[pk]].filter(Boolean).join(" ");
+    const titleEl=document.getElementById("chapterTitle"); const contentEl=document.getElementById("chapterContent");
+    if(titleEl) titleEl.textContent=[ch[tk], ch[sk], ch[pk]].filter(Boolean).join(" ");
     const body=(ch[ck]||"").toString(); const url=(ch[uk]||"").toString();
-    const contentEl=document.getElementById("chapterContent");
-    if(body){ contentEl.textContent=body; }
-    else if(url){ contentEl.innerHTML=`<a href="${url}" target="_blank" rel="noopener">在原站閱讀本章（來源連結）</a>`; }
-    else { contentEl.textContent="（尚未搬入內容。可在表格的「內容」欄貼上本文，或填來源URL）"; }
-    document.getElementById("content").scrollIntoView({behavior:"smooth", block:"start"});
+    if(contentEl){
+      if(body){ contentEl.textContent=body; }
+      else if(url){ contentEl.innerHTML=`<a href="${url}" target="_blank" rel="noopener">在原站閱讀本章（來源連結）</a>`; }
+      else { contentEl.textContent="（尚未搬入內容。可在表格的「內容」欄貼上本文，或填來源URL）"; }
+    }
+    const ct=document.getElementById("content"); if(ct) ct.scrollIntoView({behavior:"smooth", block:"start"});
   }
-
-  async function init(){ applyMode(); state.chapters = await loadData(); renderList(); }
-  document.addEventListener("DOMContentLoaded", init);
+  async function initReader(){ applyMode(); state.chapters = await loadData(); renderList(); }
+  function initSettings(){
+    applyMode();
+    const sourceLabel = document.getElementById("sourceLabel");
+    const csvPath = document.getElementById("csvPath");
+    const apiEndpoint = document.getElementById("apiEndpoint");
+    if(sourceLabel) sourceLabel.textContent = cfg.DATA_SOURCE;
+    if(csvPath) csvPath.textContent = cfg.CSV_PATH;
+    if(apiEndpoint) apiEndpoint.textContent = cfg.API_ENDPOINT || "(未設定)";
+    window.chooseMode = (mode)=>{ localStorage.setItem("readingMode", mode); applyMode(); alert("已切換到「"+mode+"」模式。"); };
+  }
+  document.addEventListener("DOMContentLoaded", ()=>{
+    if(document.getElementById("chapterList")) initReader();
+    if(document.getElementById("settingsPage")) initSettings();
+  });
 })();

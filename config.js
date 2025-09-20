@@ -1,7 +1,7 @@
 window.AppConfig = {
-  DATA_SOURCE: "csv", // "csv" | "api"
+  DATA_SOURCE: "csv",
   CSV_PATH: "./assets/novel_chapters.csv",
-  API_ENDPOINT: "",   // 留空表示不使用；若要用 GAS，填入你的網址即可
+  API_ENDPOINT: "",
   API_PARAMS: {},
   DEFAULT_MODE: "dark",
   TITLE_FIELD: "章標籤",

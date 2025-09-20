@@ -1,6 +1,6 @@
 {
-  "name": "小說閱讀器",
-  "short_name": "閱讀器",
+  "name": "黑底閱讀器 V3K FIX",
+  "short_name": "V3K FIX",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
